@@ -1,0 +1,80 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block content %}
+<div class="row pt-md-4">
+                  
+  
+  <div class="row pt-md-4">
+     <!--Post Stared -->             
+    {% for data in datas %}
+    <div class="col-md-12">
+      <div class="blog-entry ftco-animate d-md-flex">
+        <a
+          href="single.html"
+          class="img img-2"
+          style="background-image: url({% static "images/image_2.jpg" %})"
+        ></a>
+        <div class="text text-2 pl-md-4">
+          <h3 class="mb-2">
+            <a href="single.html"
+              >{{data.title}}</a
+            >
+          </h3>
+          <div class="meta-wrap">
+            <p class="meta">
+              <span
+                ><i class="icon-calendar mr-2"></i>June 28,
+                2019</span
+              >
+              <span
+                ><a href="single.html"
+                  ><i class="icon-folder-o mr-2 link-underline-light"></i>Category: 
+                  {% for cat in data.category.all %}
+                  <button disabled="disabled" class="btn btn-warning" >{{cat.name}}</button>
+                  {% endfor %}
+                  </a
+                ></span
+              >
+              <span
+                ><i class="icon-comment2 mr-2"></i>Author: {{data.author.name}}</span
+              >
+            </p>
+          </div>
+          <p class="mb-4">
+            {{data.content}}
+          </p>
+          <p>
+            <a href="{% url "editpost" data.id %}" class="btn btn-warning">Edit</a>
+            <a href="{% url "deletepost" data.id %}" class="btn btn-danger">Delete</a>
+          </p>
+          <p>
+            <a href="#" class="btn-custom"
+              >Read More
+              <span class="ion-ios-arrow-forward"></span
+            ></a>
+          </p>
+        </div>
+      </div>
+    </div>
+    {% endfor %}
+    <!--Post Ended-->
+  </div>
+  <!--Page Nevigations -->
+  <div class="row">
+    <div class="col">
+      <div class="block-27">
+        <ul>
+          <li><a href="#">&lt;</a></li>
+          <li class="active"><span>1</span></li>
+          <li><a href="#">2</a></li>
+          <li><a href="#">3</a></li>
+          <li><a href="#">4</a></li>
+          <li><a href="#">5</a></li>
+          <li><a href="#">&gt;</a></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock content %}
