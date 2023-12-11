@@ -51,18 +51,20 @@
             <li><a href="travel.html">Travel</a></li>
             <li><a href="about.html">About</a></li>
             <li><a href="contact.html">Contact</a></li>
+            {% if user.is_authenticated %}
             <li><a href="{% url "createpost" %}">Create Post</a></li>
             <li><a href="{% url "authors" %}">Add Author</a></li>
             <li><a href="{% url "category" %}">Add Category</a></li>
             <li><a href="{% url "profile" %}">Create Profile</a></li>
+            <li><a href="{% url "profile" %}">{{user}}</a></li>
+            {% endif %}
           </ul>
         </nav>
-
         <div class="colorlib-footer">
-          <h1 id="colorlib-logo" class="mb-4">
+          {% comment %} <h1 id="colorlib-logo" class="mb-4">
             <a href="index.html" style="background-image: url({% static "images/bg_1.jpg" %})"
               >Misbahul <span>Amin</span></a
-            >
+            > {% endcomment %}
           </h1>
           <div class="mb-4">
             <h3>Subscribe for newsletter</h3>
@@ -95,13 +97,23 @@
         <section class="ftco-section ftco-no-pt ftco-no-pb">
           <div class="container">
             <div class="row d-flex">
-              <div class="col-xl-8 py-5 px-md-5">
+              <div class="col-xl-8 py-1 px-md-5">
                 {% block content %}
+                
                 {% endblock content %}
                 <!-- END-->
               </div>
-              <div class="col-xl-4 sidebar ftco-animate bg-light pt-5">
+              <div class="col-xl-4 sidebar ftco-animate bg-light pt-2">
                 <div class="sidebar-box pt-md-4">
+                  <div class="" >
+                    {% if user.is_authenticated %}
+                    <a href="{% url "profile" %}" class = "btn btn-primary" >Profile</a>
+                    <a href="{% url "logout" %}" class = "btn btn-primary" >Logout</a>
+                    {% else %}
+                    <a href="{% url "signup" %}" class = "btn btn-primary" >Signup</a>
+                    <a href="{% url "login" %}" class = "btn btn-primary" >Login</a>
+                    {% endif %}
+                  </div>
                   <form action="#" class="search-form">
                     <div class="form-group">
                       <span class="icon icon-search"></span>

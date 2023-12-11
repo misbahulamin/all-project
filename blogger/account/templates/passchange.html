@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+{% load crispy_forms_tags %}
+{% load static %}
+{% block content %}
+<h1>Change Your Password.</h1>
+
+{% if messages %}
+{% for m in messages %}
+<small>{{m}}</small>
+
+{% endfor %}
+
+{% endif %}
+
+<form action="" method="post" novalidate>
+    {% csrf_token %}
+    {{ form | crispy }}
+    {% comment %} {% for field in form %}
+        <div class="form-group">
+            {{ field.label_tag }}
+            {{ field.errors }}
+            {{ field}}
+        </div>
+    {% endfor %} {% endcomment %}
+    
+    <button class="btn btn-primary" type="submit">Submit</button>
+</form>
+<p><a href="{% url "passchangewithoutoldpass" %}">Are you forgot your password?</a></p>
+
+{% endblock content %}

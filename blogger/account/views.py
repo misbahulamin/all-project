@@ -1,39 +1,22 @@
 from django.shortcuts import render, redirect
-from . models import TicketBook
-from . import forms
+from .forms import RegisterForm
 from django.contrib import messages
 from django.contrib.auth.forms import AuthenticationForm, PasswordChangeForm, SetPasswordForm
 from django.contrib.auth import authenticate, login, logout, update_session_auth_hash
-
 # Create your views here.
-# def home(request):
-#     print(request.POST)
-#     if request.method == 'POST':
-#         fromlocation = request.POST.get('from')
-#         tolocation = request.POST.get('to')
-#         depaturedate = request.POST.get('deparure')
-#         returndate = request.POST.get('return')
-#         roundtrip = request.POST.get('roundtrip')
-#         onewaytrip = request.POST.get('onewaytrip')
-#         return render(request, 'index.html', {'fromlocation':fromlocation, 'tolocation':tolocation, 'depaturedate':depaturedate, 'returndate':returndate, 'roundtrip':roundtrip, 'onewaytrip':onewaytrip})
-#     else:
-#         return render(request, 'index.html')
 
-def home(request):
-    if request.method == 'POST':
-        ticketData = forms.TicketBookForm(request.POST)
-        if ticketData.is_valid():
-            ticketData.save()
-            return redirect('home')
+def signIn(request):
+    if not request.user.is_authenticated:
+        if request.method == 'POST':
+            signForm = RegisterForm(request.POST)
+            if signForm.is_valid():
+                messages.success(request, 'Account Created Succesfully.')
+                signForm.save()
+        else:
+            signForm = RegisterForm()
+        return render(request, 'signup.html', {"form": signForm})
     else:
-        ticketData = forms.TicketBookForm()          
-    return render(request, 'index.html', {'tickets': ticketData})
-
-def contact(request):
-    return render(request, 'contact.html')
-
-def submitForm(request):
-    return render(request, 'form.html')
+        return redirect('home')
 
 def logIn(request):
     if not request.user.is_authenticated:  
@@ -77,12 +60,3 @@ def passChangeWithOldPass(request):
     else:
         form = SetPasswordForm(user=request.user)
     return render(request, 'passchange.html', {'form': form})
-
-def allData(request):
-    cusData = TicketBook.objects.all()
-    return render(request, 'data.html', {'tickets':cusData})
-
-def deleteData(request, id):
-    ticket = TicketBook.objects.get(pk = id)
-    ticket.delete()
-    return redirect('alldata')

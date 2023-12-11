@@ -5,7 +5,7 @@ from posts.models import Post
 # Create your views here.
 def home(request):
     data = Post.objects.all()
-    return render(request, 'article.html', {'datas':data})
+    return render(request, 'article.html', {'datas':data, 'user':request.user})
 def createPost(request):
     if request.method == 'POST':
         post_forms = forms.PostForm(request.POST)
